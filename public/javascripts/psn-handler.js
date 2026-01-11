@@ -473,6 +473,216 @@ const PSNHandler = (() => {
         return result;
       } catch (error) {
         console.error('[PSNHandler] Error handling product:', error);
+        
+    /**
+     * Get product info by search query
+     */
+    const getProductInfo = async (query, regionCode = 'US') => {
+        try {
+            const regionMap = {
+                'US': 'en-us',
+                'EU': 'en-gb',
+                'JP': 'ja-jp',
+                'AU': 'en-au',
+                'BE': 'en-be'
+            };
+
+            const locale = regionMap[regionCode.toUpperCase()] || 'en-us';
+            const searchUrl = `https://store.playstation.com/${locale}/search/${encodeURIComponent(query)}`;
+
+            console.log(`[PRODUCT_INFO] Searching for: ${query} in ${regionCode}`);
+
+            // Note: This requires additional implementation for actual search
+            // You may need to use axios/cheerio or the PSN API to fetch real data
+            return {
+                ok: true,
+                query,
+                region: regionCode,
+                searchUrl,
+                message: 'Search functionality requires additional API implementation'
+            };
+
+        } catch (err) {
+            console.error(`[PRODUCT_INFO] Failed for query "${query}" in ${regionCode}:`, err.message);
+            return { ok: false, query, region: regionCode, error: err.message };
+        }
+    };
+
+
+    return {
+          success: false,
+          error: error instanceof PSNHandlerError ? error.toJSON() : {
+            message: error.message,
+            timestamp: new Date().toISOString()
+          },
+          processedAt: new Date().toISOString()
+        };
+      }
+    },
+
+    /**
+     * Version information
+     */
+    version: '2.0.0',
+    lastUpdated: '2026-01-11'
+  };
+})();
+
+// Export for use in Node.js/CommonJS environments
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    PSNHandler: PSNHandler,
+    getProductInfo: PSNHandler.getProductInfo,
+    getProductByID: PSNHandler.getProductByID
+  };
+}larity = (str1, str2) => {
+    const maxLength = Math.max(str1.length, str2.length);
+    if (maxLength === 0) return 1;
+
+    const distance = levenshteinDistance(str1, str2);
+    return (maxLength - distance) / maxLength;
+  };
+
+  /**
+   * Levenshtein distance algorithm
+   */
+  const levenshteinDistance = (str1, str2) => {
+    const matrix = [];
+
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i];
+    }
+
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+
+    return matrix[str2.length][str1.length];
+  };
+
+  /**
+   * Custom error classes
+   */
+  class PSNHandlerError extends Error {
+    constructor(message, context = {}) {
+      super(message);
+      this.name = 'PSNHandlerError';
+      this.context = context;
+      this.timestamp = new Date().toISOString();
+    }
+
+    toJSON() {
+      return {
+        name: this.name,
+        message: this.message,
+        context: this.context,
+        timestamp: this.timestamp
+      };
+    }
+  }
+
+  class ProductExtractionError extends PSNHandlerError {
+    constructor(message, context = {}) {
+      super(message, context);
+      this.name = 'ProductExtractionError';
+    }
+  }
+
+  class CrossRegionMatchError extends PSNHandlerError {
+    constructor(message, context = {}) {
+      super(message, context);
+      this.name = 'CrossRegionMatchError';
+    }
+  }
+
+  /**
+   * Public API
+   */
+  return {
+    // Configuration
+    REGION_CONFIG,
+    
+    // Region detection and configuration
+    detectRegion,
+    getRegionSelectors,
+
+    getProductInfo,
+    getProductByID,
+    
+    // Product extraction
+    extractProductData,
+    enrichProductId,
+    
+    // Validation
+    validateProductId,
+    generateChecksum,
+    
+    // Cross-region operations
+    matchProductsCrossRegion,
+    fetchProductFromRegion,
+    calculateMatchScore,
+    calculateStringSimilarity,
+    
+    // Error classes
+    PSNHandlerError,
+    ProductExtractionError,
+    CrossRegionMatchError,
+    
+    /**
+     * Main handler function - comprehensive product extraction and analysis
+     */
+    async handleProduct(options = {}) {
+      const {
+        element = document,
+        region = null,
+        performCrossRegionMatch = false,
+        targetRegions = ['us', 'eu', 'jp'],
+        enrichData = true
+      } = options;
+
+      try {
+        // Extract product data
+        const productData = this.extractProductData(element, region);
+        
+        if (!productData.title) {
+          throw new ProductExtractionError('Failed to extract product title', { productData });
+        }
+
+        let result = { productData };
+
+        // Perform cross-region matching if requested
+        if (performCrossRegionMatch) {
+          result.crossRegionMatches = await this.matchProductsCrossRegion(
+            productData,
+            targetRegions
+          );
+        }
+
+        // Enrich data if requested
+        if (enrichData && !productData.productId) {
+          result.productData.productId = this.enrichProductId(null, region);
+        }
+
+        result.success = true;
+        result.processedAt = new Date().toISOString();
+
+        return result;
+      } catch (error) {
+        console.error('[PSNHandler] Error handling product:', error);
         return {
           success: false,
           error: error instanceof PSNHandlerError ? error.toJSON() : {
