@@ -12,9 +12,6 @@ const REGIONAL_ENDPOINTS = {
   AU: 'https://store.playstation.com/en-au/api'
 };
 
-// Timeout configuration for API calls
-const data = await getProductInfo(query, regionCode);
-
 /**
  * Search for PlayStation games across regional stores
  * GET /search?query=<search_term>&region=<region>&limit=<limit>
