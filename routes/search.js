@@ -18,7 +18,7 @@ const REQUEST_TIMEOUT = 10000;
  * Search for PlayStation games across regional stores
  * GET /search?query=<query>&region=<region>&limit=<limit>
  */
-router.get('/search', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const { query, region = 'US', limit = 20 } = req.query;
 
