@@ -13,16 +13,17 @@ const REGIONAL_ENDPOINTS = {
 };
 
 // Timeout configuration for API calls
-const REQUEST_TIMEOUT = 8000;
+const data = await getProductInfo(query, regionCode);
 
 /**
  * Search for PlayStation games across regional stores
  * GET /search?query=<search_term>&region=<region>&limit=<limit>
  */
-router.get('/', async (req, res) => {
-  try {
-    const { query, region = 'US', limit = 20 } = req.query;
-
+router.get('/by-id', async (req, res) => {
+  const { productId, region } = req.query;
+  const data = await getProductByID(productId, region || 'BE');
+  res.status(200).json(data);
+});
     // Validate input
     if (!query) {
       logger.warn('Search request without query parameter', { ip: req.ip });
