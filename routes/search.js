@@ -19,10 +19,13 @@ const data = await getProductInfo(query, regionCode);
  * Search for PlayStation games across regional stores
  * GET /search?query=<search_term>&region=<region>&limit=<limit>
  */
-router.get('/by-id', async (req, res) => {
-  const { productId, region } = req.query;
-  const data = await getProductByID(productId, region || 'BE');
-  res.status(200).json(data);
+router.get('/search', async (req, res) => {
+  try {
+    const data = await getProductInfo(query, regionCode);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
     // Validate input
     if (!query) {
