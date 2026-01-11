@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<!-- saved from url=(1557)https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/63779832/8becedc6-9144-4501-96be-ca9bfb54629d/Index.html?AWSAccessKeyId=ASIA2F3EMEYEX3JHX646&Signature=3GlEfi5tq0KnrhdlC3s%2FEtSjDC8%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEAIaCXVzLWVhc3QtMSJHMEUCIQCl4YGXgmMgIZ%2Bg6nCb8IhyFZGfvJs3cDFUACRNKfdpIgIgSjS3tlexuHuZI9s%2FpgM34nR%2B2Mh6oDeDqrV6orkufTEq%2FAQIyv%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw2OTk3NTMzMDk3MDUiDDy2XYuk6eTMeq%2FxwSrQBIcrrRd6FoXwxFOP5igI8kKBXR0jkjSNqeYWWxI3hL3rzL%2Felzj%2FXJ2eJtme6w%2Bvdx51BUyIgLPD45oVkKyDrbpcqfMHy5iLV1L8pLxgXOqdghj3uGC%2BcM4Lu3iOa1%2BT%2Fw%2FbrSSCafvlNVWoDjFZ4qgcKOvmprciGS6OJp%2BkI%2FD98HBq5hR%2BwIzTaB7y3igbLIerDq5Y6rEJ5MRTAlEiBvSMHu6%2Bezj1fn%2FGSZ3It4VVQFKgp1aDIXEUdp9kvY5Arb3SrHk53OtW3HJQCZSCRl9lPrryrLDEGEi%2Bi3sOO1cxgPpEXfseJLg53DY7TDg%2FtAW4VJT3hb9OAFGHNEuZKmPlbFX4H5XocIKJwxlmOp4lTU8W6ljdRNg1zCH9b7MrdXWZuVhhPAPNliFGHiyWN4Y2573A1Nk07bSJzviQWJhZhJCTWM0Zky9RD2FeHhB3L7%2BRcIogU0e%2Fd6Xy7SbR07zwxQ%2B%2BpbOSrolTmuEtVGRRDGf5HFUifnnA%2F9jDKACXzqgUEpi0za9zUbetFXEhuJ26y%2Biih8RnUkCOQBKtraWKSsEZO3sBWxF5MeT3unUc0pk37O2RdGJg4WFhYQTxghHwCNF5pknap%2FA1qzTqnK9U1yscNCmq6%2BWx2Hkf%2Fwlp0X1RuCodyqWX%2BSg1CThNx51ZVzWG9HG0zqKlS3wBD4UF2MrGJqNEEFkQr8Ityup%2By1F1NiHOjvNWr1qaQaQt3AuZa8fr7Rhm3WqdG93KXDLj3H4k5BAnwSNbKSjY9VysR3BgWG6%2BrIV4lKg%2Byh%2FL6Rcw2u%2BLywY6mAEB%2BunuMCYsRDiqSZR8xnwCiNwl2ijxC%2F0jxeZdog%2BeUJ%2BM2zHlDtixm0NgCe1XAmAyQrH970yCk7iByIisWkHxch0ixz633AEo5L5SAIUgqhky4L7Hy4QdAJUetOzLzQqHHop2cUN0qn7FNujeZw5qwj04bEWVZqHkfds9DQ0bB%2BHQOzfYKdQ7wW%2BzQ0qd5T%2B1RgR%2BydD1nw%3D%3D&Expires=1768094715 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSN Deals Tracker</title>
+    <style>
+        :root {
+            --color-bg-primary: #0f172a;
+            --color-bg-secondary: #1e293b;
+            --color-text-primary: #f1f5f9;
+            --color-text-secondary: #94a3b8;
+            --color-primary: #06b6d4;
+            --color-success: #10b981;
+            --color-warning: #f59e0b;
+            --color-error: #ef4444;
+            --color-border: #334155;
+            --radius: 8px;
+            --radius-lg: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            height: 100%;
+        }
+
+        body {
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--color-primary);
+        }
+
+        .header-subtitle {
+            color: var(--color-text-secondary);
+            font-size: 14px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-bottom: 6px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select {
+            padding: 10px 12px;
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius);
+            color: var(--color-text-primary);
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        button:hover {
+            background: #0891b2;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        button.secondary:hover {
+            background: var(--color-border);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .deals-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .deal-card {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s;
+            display: grid;
+            grid-template-columns: 80px 1fr auto;
+            gap: 16px;
+            padding: 12px;
+        }
+
+        .deal-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
+        }
+
+        .game-thumbnail {
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+            border: 1px solid var(--color-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .game-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: 4px;
+            word-break: break-word;
+        }
+
+        .game-meta {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .game-meta span {
+            display: inline-block;
+            margin-right: 12px;
+        }
+
+        .price-comparison {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            min-width: 450px;
+        }
+
+        .price-cell {
+            text-align: center;
+            padding: 8px;
+            background: rgba(6, 182, 212, 0.05);
+            border-radius: var(--radius);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+        }
+
+        .price-region {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .price-amount {
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .price-local {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 4px;
+        }
+
+        .price-rate {
+            font-size: 10px;
+            color: var(--color-text-secondary);
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .savings {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+            padding: 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .savings-percent {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-success);
+            margin-bottom: 4px;
+        }
+
+        .savings-label {
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+        }
+
+        .best-deal {
+            padding: 8px 12px;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: var(--radius);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-success);
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .alert {
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: var(--radius);
+            color: #fca5a5;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 1200px) {
+            .deal-card {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .price-comparison {
+                min-width: auto;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .savings {
+                grid-column: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .deal-card {
+                grid-template-columns: 1fr;
+            }
+
+            .price-comparison {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .savings {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+<body style="overscroll-behavior-x: auto;">
+    <div class="container">
+        <header>
+            <h1>🎮 PSN Deals Tracker</h1>
+            <p class="header-subtitle">Compare PlayStation game prices across Japan, Turkey, India, and Belgium</p>
+        </header>
+
+        <div class="alert" id="backendAlert" style="display: none; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #86efac;">
+            ✅ Connected to local Node.js backend
+        </div>
+        
+        <div class="alert" id="backendErrorAlert" style="display: block;">
+            ❌ Backend not running. Make sure Node.js server is started: <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 3px; font-size: 12px;">npm start</code>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <label>Search Game</label>
+                <input type="text" id="searchInput" placeholder="e.g., Doom Eternal, Elden Ring..." autocomplete="off">
+            </div>
+
+            <div class="search-box">
+                <label>Min Savings %</label>
+                <select id="minSavings">
+                    <option value="0">Any %</option>
+                    <option value="10">10%+</option>
+                    <option value="20">20%+</option>
+                    <option value="30">30%+</option>
+                    <option value="50">50%+</option>
+                </select>
+            </div>
+
+            <div class="search-box">
+                <label>Platform</label>
+                <select id="platformFilter">
+                    <option value="all">All Platforms</option>
+                    <option value="ps5">PS5 Only</option>
+                    <option value="ps4">PS4 Only</option>
+                </select>
+            </div>
+
+            <div class="button-group">
+                <button onclick="fetchLiveDeals()" id="fetchBtn">🔄 Fetch Live Deals</button>
+                <button onclick="applyFilters()">Apply Filters</button>
+                <button class="secondary" onclick="resetFilters()">Reset</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalGames">0</div>
+                <div class="stat-label">Total Games</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="dealsFound">0</div>
+                <div class="stat-label">Deals Found</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgSavings">0%</div>
+                <div class="stat-label">Avg Savings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="bestDeal">—</div>
+                <div class="stat-label">Best Deal</div>
+            </div>
+        </div>
+
+        <div id="dealsContainer" class="deals-grid">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <p>No games found. Click "Fetch Live Deals" to load regional pricing data.</p>
+                    </div>
+                </div>
+    </div>
+
+    <script>
+        let gameDatabase = [];
+        let currentGames = [];
+        const BACKEND_URL = 'http://localhost:3000';
+        const REGIONS = ['JP', 'TR', 'IN', 'BE'];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkBackendConnection();
+        });
+
+        async function checkBackendConnection() {
+            try {
+                const response = await fetch(`${BACKEND_URL}/search-psn?query=test`, {
+                    method: 'GET',
+                    mode: 'cors'
+                });
+                
+                if (response.ok) {
+                    document.getElementById('backendAlert').style.display = 'block';
+                    document.getElementById('backendErrorAlert').style.display = 'none';
+                } else {
+                    showBackendError();
+                }
+            } catch (error) {
+                showBackendError();
+            }
+        }
+
+        function showBackendError() {
+            document.getElementById('backendErrorAlert').style.display = 'block';
+            document.getElementById('backendAlert').style.display = 'none';
+        }
+
+        async function fetchGamePrice(gameName, region) {
+            try {
+                const response = await fetch(
+                    `${BACKEND_URL}/search-psn?query=${encodeURIComponent(gameName)}&region=${region}`,
+                    { mode: 'cors' }
+                );
+
+                if (!response.ok) {
+                    console.warn(`Backend error for ${gameName} in ${region}`);
+                    return null;
+                }
+
+                const data = await response.json();
+
+                if (!data.searchResults || data.searchResults.length === 0) {
+                    console.warn(`No results for ${gameName} in ${region}`);
+                    return null;
+                }
+
+                const result = data.searchResults[0];
+
+                return {
+                    priceInEur: result.priceInEur || 0,
+                    rawPrice: result.rawPrice || 0,
+                    displayPrice: result.price,
+                    currency: result.currency || '$',
+                    exchangeRate: result.exchangeRate || 1.0,
+                    coverArt: result.imageUrl || '',
+                    title: result.name,
+                    url: result.url,
+                    region: region
+                };
+            } catch (error) {
+                console.error(`Fetch error for ${gameName} in ${region}:`, error);
+                return null;
+            }
+        }
+
+        async function fetchLiveDeals() {
+            const fetchBtn = document.getElementById('fetchBtn');
+            const searchInput = document.getElementById('searchInput').value.trim();
+
+            if (!searchInput) {
+                alert('Please enter a game name first');
+                return;
+            }
+
+            fetchBtn.disabled = true;
+            fetchBtn.textContent = '⏳ Fetching regional prices...';
+            document.getElementById('backendErrorAlert').style.display = 'none';
+
+            try {
+                const prices = await Promise.all(
+                    REGIONS.map(region => fetchGamePrice(searchInput, region))
+                );
+
+                const [jpPrice, trPrice, inPrice, bePrice] = prices;
+
+                if (!bePrice || bePrice.priceInEur === 0) {
+                    alert(`"${searchInput}" not found on Belgium PSN Store`);
+                    fetchBtn.disabled = false;
+                    fetchBtn.textContent = '🔄 Fetch Live Deals';
+                    return;
+                }
+
+                if (!jpPrice || !trPrice || !inPrice) {
+                    alert(`Game found in Belgium but missing prices in some regions. Try a different game.`);
+                    fetchBtn.disabled = false;
+                    fetchBtn.textContent = '🔄 Fetch Live Deals';
+                    return;
+                }
+
+                gameDatabase = [{
+                    id: 1,
+                    title: jpPrice.title || searchInput,
+                    platform: 'ps5',
+                    image: jpPrice.coverArt || '🎮',
+                    reviews: 100,
+                    prices: {
+                        japan: jpPrice,
+                        turkey: trPrice,
+                        india: inPrice,
+                        belgium: bePrice
+                    }
+                }];
+
+                currentGames = [...gameDatabase];
+                renderGames(currentGames);
+                
+                alert(`✅ Loaded: ${jpPrice.title}\n\n` +
+                      `JP: ${jpPrice.displayPrice} (${jpPrice.priceInEur.toFixed(2)}€ @ 1EUR=${jpPrice.exchangeRate.toFixed(2)}JPY)\n` +
+                      `TR: ${trPrice.displayPrice} (${trPrice.priceInEur.toFixed(2)}€ @ 1EUR=${trPrice.exchangeRate.toFixed(2)}TRY)\n` +
+                      `IN: ${inPrice.displayPrice} (${inPrice.priceInEur.toFixed(2)}€ @ 1EUR=${inPrice.exchangeRate.toFixed(2)}INR)\n` +
+                      `BE: ${bePrice.displayPrice}`);
+
+            } catch (error) {
+                console.error('Error fetching deals:', error);
+                showBackendError();
+            } finally {
+                fetchBtn.disabled = false;
+                fetchBtn.textContent = '🔄 Fetch Live Deals';
+            }
+        }
+
+        function calculateSavings(cheapestPriceEur, belgiumPriceEur) {
+            if (belgiumPriceEur === 0) return 0;
+            return Math.round(((belgiumPriceEur - cheapestPriceEur) / belgiumPriceEur) * 100);
+        }
+
+        function findBestRegion(prices) {
+            const regions = [
+                { name: 'JP', priceEur: prices.japan.priceInEur },
+                { name: 'TR', priceEur: prices.turkey.priceInEur },
+                { name: 'IN', priceEur: prices.india.priceInEur }
+            ];
+            return regions.reduce((min, r) => r.priceEur < min.priceEur ? r : min);
+        }
+
+        function renderGames(games) {
+            const container = document.getElementById('dealsContainer');
+            
+            if (games.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <p>No games found. Click "Fetch Live Deals" to load regional pricing data.</p>
+                    </div>
+                `;
+                updateStats([]);
+                return;
+            }
+
+            const dealsOnly = games.filter(g => {
+                const best = findBestRegion(g.prices);
+                return calculateSavings(best.priceEur, g.prices.belgium.priceInEur) > 0;
+            });
+
+            container.innerHTML = games.map(game => {
+                const best = findBestRegion(game.prices);
+                const savings = calculateSavings(best.priceEur, game.prices.belgium.priceInEur);
+
+                return `
+                    <div class="deal-card">
+                        <div class="game-thumbnail">
+                            <img src="${game.image}" alt="${game.title}" onerror="this.style.display='none'">
+                        </div>
+                        <div class="game-info">
+                            <div>
+                                <div class="game-title">${game.title}</div>
+                                <div class="game-meta">
+                                    <span>${game.platform.toUpperCase()}</span>
+                                    <span>${game.reviews} Reviews</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="price-comparison">
+                            <div class="price-cell">
+                                <div class="price-region">🇯🇵 Japan</div>
+                                <div class="price-amount">${game.prices.japan.displayPrice}</div>
+                                <div class="price-local">${game.prices.japan.priceInEur.toFixed(2)}€</div>
+                                <div class="price-rate">1€=${game.prices.japan.exchangeRate.toFixed(1)}¥</div>
+                            </div>
+                            <div class="price-cell">
+                                <div class="price-region">🇹🇷 Turkey</div>
+                                <div class="price-amount">${game.prices.turkey.displayPrice}</div>
+                                <div class="price-local">${game.prices.turkey.priceInEur.toFixed(2)}€</div>
+                                <div class="price-rate">1€=${game.prices.turkey.exchangeRate.toFixed(2)}₺</div>
+                            </div>
+                            <div class="price-cell">
+                                <div class="price-region">🇮🇳 India</div>
+                                <div class="price-amount">${game.prices.india.displayPrice}</div>
+                                <div class="price-local">${game.prices.india.priceInEur.toFixed(2)}€</div>
+                                <div class="price-rate">1€=${game.prices.india.exchangeRate.toFixed(1)}₹</div>
+                            </div>
+                            <div class="price-cell">
+                                <div class="price-region">🇧🇪 Belgium</div>
+                                <div class="price-amount">${game.prices.belgium.displayPrice}</div>
+                                <div class="price-local">${game.prices.belgium.priceInEur.toFixed(2)}€</div>
+                                <div class="price-rate">Reference</div>
+                            </div>
+                        </div>
+                        <div class="savings">
+                            <div class="savings-percent">${savings > 0 ? '-' : '+'}${Math.abs(savings)}%</div>
+                            <div class="best-deal">${best.name} Best Deal</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateStats(dealsOnly);
+        }
+
+        function updateStats(deals) {
+            document.getElementById('totalGames').textContent = currentGames.length;
+            document.getElementById('dealsFound').textContent = deals.length;
+            
+            if (deals.length > 0) {
+                const avgSavings = Math.round(
+                    deals.reduce((sum, g) => {
+                        const best = findBestRegion(g.prices);
+                        return sum + calculateSavings(best.priceEur, g.prices.belgium.priceInEur);
+                    }, 0) / deals.length
+                );
+                document.getElementById('avgSavings').textContent = avgSavings + '%';
+
+                const bestGame = deals.reduce((best, g) => {
+                    const bestRegion = findBestRegion(g.prices);
+                    const savings = calculateSavings(bestRegion.priceEur, g.prices.belgium.priceInEur);
+                    const bestRegionBest = findBestRegion(best.prices);
+                    const bestSavings = calculateSavings(bestRegionBest.priceEur, best.prices.belgium.priceInEur);
+                    return savings > bestSavings ? g : best;
+                });
+                const bestRegionBest = findBestRegion(bestGame.prices);
+                const bestSavings = calculateSavings(bestRegionBest.priceEur, bestGame.prices.belgium.priceInEur);
+                document.getElementById('bestDeal').textContent = bestSavings + '%';
+            } else {
+                document.getElementById('avgSavings').textContent = '0%';
+                document.getElementById('bestDeal').textContent = '—';
+            }
+        }
+
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const minSavings = parseInt(document.getElementById('minSavings').value) || 0;
+            const platform = document.getElementById('platformFilter').value;
+
+            currentGames = gameDatabase.filter(game => {
+                const titleMatch = game.title.toLowerCase().includes(search);
+                const platformMatch = platform === 'all' || game.platform === platform;
+                const best = findBestRegion(game.prices);
+                const savings = calculateSavings(best.priceEur, game.prices.belgium.priceInEur);
+                const savingsMatch = savings >= minSavings;
+
+                return titleMatch && platformMatch && savingsMatch;
+            });
+
+            renderGames(currentGames);
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('minSavings').value = '0';
+            document.getElementById('platformFilter').value = 'all';
+            currentGames = [...gameDatabase];
+            renderGames(currentGames);
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', applyFilters);
+        document.getElementById('minSavings').addEventListener('change', applyFilters);
+        document.getElementById('platformFilter').addEventListener('change', applyFilters);
+
+        renderGames([]);
+    </script>
+
+</body></html>
