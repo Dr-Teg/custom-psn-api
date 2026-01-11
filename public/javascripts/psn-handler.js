@@ -110,6 +110,49 @@ const PSNHandler = (() => {
     return { ok: false, region, productId, error: err.message };
   }
 };
+
+
+    /**
+     * Get product information by search query
+     */
+    const getProductInfo = async (query, regionCode = 'US') => {
+        try {
+            const regionMap = {
+                'US': 'en-us',
+                'EU': 'en-gb',
+                'JP': 'ja-jp',
+                'AU': 'en-au',
+                'BE': 'en-be'
+            };
+
+            const locale = regionMap[regionCode.toUpperCase()] || 'en-us';
+            const searchUrl = `https://store.playstation.com/${locale}/search/${encodeURIComponent(query)}`;
+
+            console.log(`[PRODUCT_INFO] Searching for: ${query} in ${regionCode}`);
+
+            // This is a placeholder implementation
+            // You'll need to implement actual API calls or web scraping here
+            return {
+                ok: true,
+                query,
+                region: regionCode,
+                searchUrl,
+                message: 'Search functionality - implement actual API logic here',
+                results: []
+            };
+
+        } catch (err) {
+            console.error(`[PRODUCT_INFO] Failed for query "${query}" in ${regionCode}:`, err.message);
+            return { 
+                ok: false, 
+                query, 
+                region: regionCode, 
+                error: err.message 
+            };
+        }
+    };
+
+
   
   /**
    * Extract product data from DOM using region-specific selectors
@@ -473,43 +516,7 @@ const PSNHandler = (() => {
         return result;
       } catch (error) {
         console.error('[PSNHandler] Error handling product:', error);
-        
-    /**
-     * Get product info by search query
-     */
-    const getProductInfo = async (query, regionCode = 'US') => {
-        try {
-            const regionMap = {
-                'US': 'en-us',
-                'EU': 'en-gb',
-                'JP': 'ja-jp',
-                'AU': 'en-au',
-                'BE': 'en-be'
-            };
-
-            const locale = regionMap[regionCode.toUpperCase()] || 'en-us';
-            const searchUrl = `https://store.playstation.com/${locale}/search/${encodeURIComponent(query)}`;
-
-            console.log(`[PRODUCT_INFO] Searching for: ${query} in ${regionCode}`);
-
-            // Note: This requires additional implementation for actual search
-            // You may need to use axios/cheerio or the PSN API to fetch real data
-            return {
-                ok: true,
-                query,
-                region: regionCode,
-                searchUrl,
-                message: 'Search functionality requires additional API implementation'
-            };
-
-        } catch (err) {
-            console.error(`[PRODUCT_INFO] Failed for query "${query}" in ${regionCode}:`, err.message);
-            return { ok: false, query, region: regionCode, error: err.message };
-        }
-    };
-
-
-    return {
+        return {
           success: false,
           error: error instanceof PSNHandlerError ? error.toJSON() : {
             message: error.message,
