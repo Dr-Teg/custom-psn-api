@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom PSN API</title>
+    <title>PSN Deals Tracker | Regional Price Comparison</title>
     <style>
         * {
             margin: 0;
@@ -102,10 +102,6 @@
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
         
-        button:active {
-            transform: translateY(0);
-        }
-        
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -133,378 +129,262 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
+
         .results {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
         }
-        
+
         .game-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             display: flex;
-            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.2s;
         }
-        
+
         .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
         }
-        
+
         .game-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 3em;
-            overflow: hidden;
+            background: #f0f0f0;
+            flex-shrink: 0;
         }
-        
+
         .game-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
         .game-info {
-            padding: 20px;
             flex-grow: 1;
-            display: flex;
-            flex-direction: column;
         }
-        
+
         .game-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #333;
-            word-break: break-word;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            color: #1a202c;
         }
-        
+
         .game-platform {
-            display: inline-block;
-            background: #f0f0f0;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            color: #666;
-            margin-bottom: 15px;
-            width: fit-content;
+            font-size: 0.8em;
+            background: #edf2f7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            color: #4a5568;
         }
-        
+
         .price-section {
-            margin-top: auto;
-            border-top: 2px solid #f0f0f0;
-            padding-top: 15px;
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
         }
-        
+
         .price-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 6px;
-        }
-        
-        .price-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .region-label {
-            font-weight: 600;
-            color: #555;
-            font-size: 0.95em;
-        }
-        
-        .price-value {
-            font-size: 1.2em;
-            font-weight: 700;
-            color: #667eea;
-        }
-        
-        .no-price {
-            background: #fff3cd;
-            padding: 12px;
-            border-left: 4px solid #ffc107;
+            padding: 4px 8px;
+            background: #f7fafc;
             border-radius: 4px;
-            margin-top: 10px;
+            font-size: 0.9em;
         }
-        
-        .no-price-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #856404;
-            font-weight: 500;
+
+        .price-item.missing {
+            opacity: 0.5;
+            text-decoration: line-through;
         }
-        
-        .no-price-icon {
-            font-size: 1.2em;
+
+        .region-label {
+            font-weight: bold;
+            color: #718096;
         }
-        
-        .no-results {
-            background: white;
-            padding: 60px 20px;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .no-results-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-        
-        .no-results h3 {
-            font-size: 1.5em;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .no-results p {
-            color: #666;
-            font-size: 1.05em;
-        }
-        
-        .error {
-            background: #f8d7da;
-            border-left: 4px solid #dc3545;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            color: #721c24;
-        }
-        
-        .error-title {
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
+
         .error-message {
-            font-size: 0.95em;
-        }
-        
-        .info-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 12px;
+            background: #fff5f5;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #fc8181;
             margin-top: 20px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            color: #333;
-        }
-        
-        .info-section h3 {
-            margin-bottom: 10px;
-            color: #667eea;
-        }
-        
-        .info-section p {
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-        
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2em;
-            }
-            
-            .search-form {
-                flex-direction: column;
-            }
-            
-            .form-group {
-                min-width: 100%;
-            }
-            
-            .results {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🎮 Custom PSN API</h1>
-            <p>Search PlayStation Network prices across regions</p>
+            <h1>PSN Deals Tracker</h1>
+            <p>Compare prices across Japan, Turkey, India, and Belgium</p>
         </header>
-        
-        <div class="search-section">
-            <form class="search-form" id="searchForm">
+
+        <section class="search-section">
+            <form id="searchForm" class="search-form">
                 <div class="form-group">
-                    <label for="gameTitle">Game Title</label>
-                    <input 
-                        type="text" 
-                        id="gameTitle" 
-                        name="title" 
-                        placeholder="e.g., Astro's Playroom" 
-                        required
-                    >
+                    <label for="gameTitle">Search Game</label>
+                    <input id="gameTitle" type="text" placeholder="e.g. Elden Ring" required>
                 </div>
-                
                 <div class="form-group">
                     <label for="platform">Platform</label>
-                    <select id="platform" name="platform">
+                    <select id="platform">
                         <option value="">All Platforms</option>
-                        <option value="PS4">PS4</option>
                         <option value="PS5">PS5</option>
+                        <option value="PS4">PS4</option>
                     </select>
                 </div>
-                
-                <button type="submit" id="searchBtn">Search</button>
+                <button id="searchBtn" type="submit">Compare Prices</button>
             </form>
-        </div>
-        
-        <div id="content"></div>
-        
-        <div class="info-section">
-            <h3>ℹ️ About Regional Pricing</h3>
-            <p>
-                This API searches for game prices across multiple PlayStation Network regions. 
-                Prices vary by region and currency due to market differences and local pricing strategies.
-            </p>
-            <p>
-                <strong>Note:</strong> Some games may not be available in all regions. 
-                When regional pricing data is unavailable, it's clearly marked with a notice.
-            </p>
-        </div>
+        </section>
+
+        <main id="content">
+            <!-- Results injected here -->
+        </main>
     </div>
-    
+
     <script>
         const form = document.getElementById('searchForm');
         const content = document.getElementById('content');
         const searchBtn = document.getElementById('searchBtn');
-        
+
+        function escapeHtml(str) {
+            if (!str) return "";
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function showError(msg) {
+            content.innerHTML = `<div class="error-message"><strong>Error:</strong> ${msg}</div>`;
+        }
+
+        function showNoResults() {
+            content.innerHTML = `<div class="loading"><p>No games found in the Belgium Store. Try a different search.</p></div>`;
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
             const title = document.getElementById('gameTitle').value.trim();
             const platform = document.getElementById('platform').value;
-            
+
             if (!title) {
                 showError('Please enter a game title');
                 return;
             }
-            
             await searchGames(title, platform);
         });
-        
+
         async function searchGames(title, platform) {
-            content.innerHTML = '<div class="loading"><div class="spinner"></div><p>Searching...</p></div>';
+            content.innerHTML = '<div class="loading"><div class="spinner"></div><p>Querying Belgium Store for Product ID...</p></div>';
             searchBtn.disabled = true;
-            
+
             try {
-                let url = `/api/search?title=${encodeURIComponent(title)}`;
-                if (platform) {
-                    url += `&platform=${encodeURIComponent(platform)}`;
-                }
+                // 1. ANCHOR: Search BE first to find the stable Product ID
+                const beUrl = `/api/search?title=${encodeURIComponent(title)}&region=BE`;
+                const beResponse = await fetch(beUrl);
+                if (!beResponse.ok) throw new Error(`Belgium Store unreachable (${beResponse.status})`);
                 
-                const response = await fetch(url);
+                const beData = await beResponse.json();
                 
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.statusText}`);
-                }
-                
-                const data = await response.json();
-                
-                if (data.games && data.games.length > 0) {
-                    displayResults(data.games);
-                } else {
+                if (!beData.searchResults || beData.searchResults.length === 0) {
                     showNoResults();
+                    return;
                 }
+
+                // Take the top result as our "Anchor"
+                const anchorGame = beData.searchResults[0];
+                const productId = anchorGame.productId;
+
+                if (!productId) {
+                    throw new Error("Game found, but could not extract a stable Product ID.");
+                }
+
+                content.innerHTML = '<div class="loading"><div class="spinner"></div><p>ID Found! Fetching regional prices...</p></div>';
+
+                // 2. LOOKUP: Fetch prices for that specific ID in other regions
+                const otherRegions = ['JP', 'TR', 'IN'];
+                const regionalPromises = otherRegions.map(async (region) => {
+                    try {
+                        const res = await fetch(`/api/search/by-id?productId=${productId}&region=${region}`);
+                        if (!res.ok) return { region, price: null };
+                        const data = await res.json();
+                        // getProductByID returns an 'ok' flag
+                        return data.ok ? { region, price: data.product.price } : { region, price: null };
+                    } catch (err) {
+                        return { region, price: null };
+                    }
+                });
+
+                const regionalResults = await Promise.all(regionalPromises);
+
+                // 3. COMBINE: Merge BE data with other regional prices
+                const combinedPrices = { 'BE': anchorGame.price };
+                regionalResults.forEach(res => {
+                    combinedPrices[res.region] = res.price;
+                });
+
+                // 4. DISPLAY
+                const gameToDisplay = {
+                    title: anchorGame.name,
+                    imageUrl: anchorGame.imageUrl,
+                    platform: platform || 'PS4/PS5',
+                    prices: combinedPrices
+                };
+
+                displayResults([gameToDisplay]);
+
             } catch (error) {
-                showError(`Failed to search: ${error.message}`);
+                showError(error.message);
             } finally {
                 searchBtn.disabled = false;
             }
         }
-        
+
         function displayResults(games) {
             const resultsHtml = games.map(game => {
-                const pricesHtml = game.prices && Object.keys(game.prices).length > 0
-                    ? Object.entries(game.prices)
-                        .map(([region, price]) => {
-                            if (price === null || price === undefined) {
-                                return `
-                                    <div class="no-price">
-                                        <div class="no-price-label">
-                                            <span class="no-price-icon">⚠️</span>
-                                            <span>${region}: Not available in this region</span>
-                                        </div>
-                                    </div>
-                                `;
-                            }
-                            return `
-                                <div class="price-item">
-                                    <span class="region-label">${region}</span>
-                                    <span class="price-value">${price}</span>
-                                </div>
-                            `;
-                        })
-                        .join('')
-                    : `
-                        <div class="no-price">
-                            <div class="no-price-label">
-                                <span class="no-price-icon">ℹ️</span>
-                                <span>Regional pricing data unavailable</span>
+                const pricesHtml = Object.entries(game.prices)
+                    .map(([region, price]) => {
+                        const isMissing = !price;
+                        return `
+                            <div class="price-item ${isMissing ? 'missing' : ''}">
+                                <span class="region-label">${region}</span>
+                                <span class="price-value">${price || 'N/A'}</span>
                             </div>
-                        </div>
-                    `;
-                
+                        `;
+                    }).join('');
+
                 return `
-                    <div class="game-card">
-                        <div class="game-image">
-                            ${game.imageUrl 
-                                ? `<img src="${game.imageUrl}" alt="${game.title}" onerror="this.style.display='none'">` 
-                                : '🎮'
-                            }
-                        </div>
-                        <div class="game-info">
-                            <h3 class="game-title">${escapeHtml(game.title)}</h3>
-                            ${game.platform ? `<span class="game-platform">${escapeHtml(game.platform)}</span>` : ''}
-                            <div class="price-section">
-                                ${pricesHtml}
+                    <div class="results">
+                        <div class="game-card">
+                            <div class="game-image">
+                                ${game.imageUrl 
+                                    ? `<img src="${game.imageUrl}" alt="${game.title}" onerror="this.src='https://placehold.co/200x200?text=🎮'">` 
+                                    : '🎮'
+                                }
+                            </div>
+                            <div class="game-info">
+                                <h3 class="game-title">${escapeHtml(game.title)}</h3>
+                                <span class="game-platform">${escapeHtml(game.platform)}</span>
+                                <div class="price-section">
+                                    ${pricesHtml}
+                                </div>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
-            
-            content.innerHTML = `<div class="results">${resultsHtml}</div>`;
-        }
-        
-        function showNoResults() {
-            content.innerHTML = `
-                <div class="no-results">
-                    <div class="no-results-icon">🔍</div>
-                    <h3>No games found</h3>
-                    <p>Try searching with different keywords or check the game title</p>
-                </div>
-            `;
-        }
-        
-        function showError(message) {
-            content.innerHTML = `
-                <div class="error">
-                    <div class="error-title">❌ Error</div>
-                    <div class="error-message">${escapeHtml(message)}</div>
-                </div>
-            `;
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+
+            content.innerHTML = resultsHtml;
         }
     </script>
 </body>
