@@ -1,7 +1,8 @@
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 const axios = require('axios');
 const logger = require('../utils/logger');
+const { getProductInfo, getProductByID } = require("../public/javascripts/psn-handler");
 
 // Regional endpoint configuration
 const REGIONAL_ENDPOINTS = {
@@ -378,4 +379,24 @@ function handleSearchError(error, res, req) {
   });
 }
 
+const getProductById = async (req, res) => {
+  try {
+    const { productId, region } = req.query;
+    
+    if (!productId) {
+      return res.status(400).json({ error: "productId parameter is required" });
+    }
+
+    const regionCode = region || 'BE'; // Default to Belgium
+    const data = await getProductByID(productId, regionCode);
+    res.status(200).json(data);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+// Register the new route
+router.get('/by-id', getProductById);
 module.exports = router;
