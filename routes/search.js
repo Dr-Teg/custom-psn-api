@@ -6,10 +6,10 @@ const { getProductInfo, getProductByID } = require("../public/javascripts/psn-ha
 
 // Regional endpoint configuration
 const REGIONAL_ENDPOINTS = {
-    US: 'https://store.playstation.com/en-us/api',
-    EU: 'https://store.playstation.com/en-gb/api',
+    TR: 'https://store.playstation.com/en-tr/api',
+    BE: 'https://store.playstation.com/en-be/api',
     JP: 'https://store.playstation.com/ja-jp/api',
-    AU: 'https://store.playstation.com/en-au/api'
+    IN: 'https://store.playstation.com/en-in/api'
 };
 
 const REQUEST_TIMEOUT = 10000;
