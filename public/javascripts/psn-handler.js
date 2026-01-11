@@ -411,7 +411,7 @@ const PSNHandler = (() => {
     getRegionSelectors,
 
     getProductInfo,
-      getProductByID,
+    getProductByID,
     
     // Product extraction
     extractProductData,
@@ -494,5 +494,9 @@ const PSNHandler = (() => {
 
 // Export for use in Node.js/CommonJS environments
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = PSNHandler;
+  module.exports = {
+    PSNHandler: PSNHandler,
+    getProductInfo: PSNHandler.getProductInfo,
+    getProductByID: PSNHandler.getProductByID
+  };
 }
