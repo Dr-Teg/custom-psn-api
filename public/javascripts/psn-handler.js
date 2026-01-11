@@ -409,6 +409,9 @@ const PSNHandler = (() => {
     // Region detection and configuration
     detectRegion,
     getRegionSelectors,
+
+    getProductInfo,
+      getProductByID,
     
     // Product extraction
     extractProductData,
