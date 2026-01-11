@@ -72,6 +72,45 @@ const PSNHandler = (() => {
     return REGION_CONFIG[targetRegion] || REGION_CONFIG.us;
   };
 
+  const getProductByID = async (productId, region = 'BE') => {
+  try {
+    const locale = regionMap[region.toUpperCase()] || 'en-be';
+    const url = `https://store.playstation.com/${locale}/product/${productId}`;
+
+    console.log(`[PRODUCT_ID] Fetching ${url}`);
+
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+      },
+      timeout: 5000
+    });
+
+    const $ = cheerio.load(response.data);
+    const priceText = $('[data-qa*="price"]').first().text().trim();
+
+    // get exchange rate for this region
+    const exchangeRates = await getExchangeRates();
+    const currencyCode = currencyInfo[region.toUpperCase()]?.name || 'EUR';
+    const rate = exchangeRates[currencyCode] || 1.0;
+
+    const rawPrice = parsePrice(priceText);
+    const priceInEur = rawPrice * rate;
+
+    return {
+      ok: true,
+      region,
+      productId,
+      price: priceText,
+      rawPrice,
+      priceInEur
+    };
+  } catch (err) {
+    console.error(`[PRODUCT_ID] Failed for ${productId} in ${region}:`, err.message);
+    return { ok: false, region, productId, error: err.message };
+  }
+};
+  
   /**
    * Extract product data from DOM using region-specific selectors
    */
